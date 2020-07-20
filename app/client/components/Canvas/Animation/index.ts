@@ -29,6 +29,10 @@ class Animation {
         this.people.setup(this.size, options.person);
     }
 
+    refresh(options: any) {
+        this.people.refresh(options.person);
+    }
+
     setup(p5: any, canvasParentRef: any) {
         p5.createCanvas(this.size.x, this.size.y).parent(canvasParentRef);
 

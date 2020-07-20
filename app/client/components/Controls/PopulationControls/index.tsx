@@ -2,19 +2,21 @@ import React, { FunctionComponent, useState, useContext } from "react";
 import Slider from "../../Slider";
 
 import pandemicStore from "../../../state/PandemicState/store";
-import { setPopulation, setPersonRadius, setInfectionRadius, setAvoidanceRadius, setSickSpeed, setHealthySpeeed } from "../../../state/PandemicState/actions";
+import { setPopulation, setPersonRadius, setInfectionRadius, setAvoidanceRadius, setSickSpeed, setAvoidanceSpeed, setHealthySpeed } from "../../../state/PandemicState/actions";
 import {
     getPopulation,
     getPersonRadius,
     getPersonInfectionRadius,
     getPersonAvoidanceRadius,
     getPersonSickSpeed,
-    getPersonHealthySpeed
+    getPersonHealthySpeed,
+    getPersonAvoidanceSpeed
 } from "../../../state/PandemicState/selectors";
 
 import {
     populationControls
 } from "./index.scss";
+import Toggle from "../../Toggle";
 
 
 const PopulationControls: FunctionComponent = () => {
@@ -31,46 +33,6 @@ const PopulationControls: FunctionComponent = () => {
             step={1}
             value={getPopulation(state)}
             onChange={value => setPopulation(dispatch, value)}
-        />
-        <Slider
-            title={"Person Radius"}
-            min={1}
-            max={50}
-            step={1}
-            value={getPersonRadius(state)}
-            onChange={value => setPersonRadius(dispatch, value)}
-        />
-        <Slider
-            title={"Healthy Person Speed"}
-            min={1}
-            max={100}
-            step={1}
-            value={getPersonHealthySpeed(state)}
-            onChange={value => setHealthySpeeed(dispatch, value)}
-        />
-        <Slider
-            title={"Sick Person Speed"}
-            min={1}
-            max={100}
-            step={1}
-            value={getPersonSickSpeed(state)}
-            onChange={value => setSickSpeed(dispatch, value)}
-        />
-        <Slider
-            title={"Infection Radius"}
-            min={1}
-            max={100}
-            step={1}
-            value={getPersonInfectionRadius(state)}
-            onChange={value => setInfectionRadius(dispatch, value)}
-        />
-        <Slider
-            title={"Avoidance Radius"}
-            min={1}
-            max={100}
-            step={1}
-            value={getPersonAvoidanceRadius(state)}
-            onChange={value => setAvoidanceRadius(dispatch, value)}
         />
     </div>)
 }

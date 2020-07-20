@@ -6,8 +6,6 @@ import pandemicStore from "../../state/PandemicState/store";
 import {
     getPopulation,
     getPerson,
-    getPersonRadius,
-    getPersonInfectionRadius
 } from "../../state/PandemicState/selectors";
 
 import { canvasContainer } from "./index.scss";
@@ -27,16 +25,18 @@ const Canvas: FunctionComponent = () => {
     useEffect(() => {
         if (animation) {
             options.population = getPopulation(state);
-            options.person = getPerson(state);
-
             animation.reset(options);
         }
-    }, [getPopulation(state), getPerson(state)])
+    }, [getPopulation(state)])
 
     // dynamic changes
     useEffect(() => {
+        if (animation) {
+            options.person = getPerson(state);
 
-    }, [])
+            animation.refresh(options);
+        }
+    }, [getPerson(state)])
 
     useEffect(() => {
         if (!animation) setAnimation(new Animation(options))

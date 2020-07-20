@@ -1,7 +1,7 @@
 import { Reducer } from "react";
 
 import {
-    SET_POPULATION, SET_PERSON_RADIUS, SET_INFECTION_RADIUS, SET_AVOIDANCE_RADIUS, SET_SICK_SPEED, SET_HEALTHY_SPEED
+    SET_POPULATION, SET_PERSON_RADIUS, SET_INFECTION_RADIUS, SET_AVOIDANCE_RADIUS, SET_SICK_SPEED, SET_HEALTHY_SPEED, SET_AVOIDANCE_SPEED, TOGGLE_INFECTION_RADIUS, TOGGLE_AVOIDANCE_RADIUS
 } from "./constants";
 
 const PandemicStoreReducer: Reducer<any, any> = (state: any, { type, payload }: any): any => {
@@ -10,6 +10,14 @@ const PandemicStoreReducer: Reducer<any, any> = (state: any, { type, payload }: 
             return {
                 ...state,
                 population: payload
+            }
+        case SET_AVOIDANCE_SPEED:
+            return {
+                ...state,
+                person: {
+                    ...state.person,
+                    avoidanceSpeed: payload
+                }
             }
         case SET_SICK_SPEED:
             return {
@@ -49,6 +57,22 @@ const PandemicStoreReducer: Reducer<any, any> = (state: any, { type, payload }: 
                 person: {
                     ...state.person,
                     avoidanceRadius: payload
+                }
+            }
+        case TOGGLE_INFECTION_RADIUS:
+            return {
+                ...state,
+                person: {
+                    ...state.person,
+                    showInfectionRadius: !state.person.showInfectionRadius
+                }
+            }
+        case TOGGLE_AVOIDANCE_RADIUS:
+            return {
+                ...state,
+                person: {
+                    ...state.person,
+                    showAvoidanceRadius: !state.person.showAvoidanceRadius
                 }
             }
         default: return state;

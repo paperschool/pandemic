@@ -11,25 +11,39 @@ class People {
         this.population = population;
     }
 
-    setup(worldSize: Vector, person: any) {
+    setup(worldSize: Vector, personOptions: any) {
         for (let personIndex = 0; personIndex < this.population; personIndex++) {
-            let newPerson = new Person(
+
+            let person = new Person(
                 random(0, worldSize.x),
                 random(0, worldSize.y)
             )
 
-            newPerson.setRadius(person.radius);
-
-            newPerson.setHealthySpeed(person.healthySpeed);
-            newPerson.setSickSpeed(person.sickSpeed);
-
-            newPerson.setInfectionRadius(person.infectionRadius);
-            newPerson.setAvoidanceRadius(person.avoidanceRadius);
-
-            this.people.push(newPerson);
+            person.setRadius(personOptions.radius);
+            person.setAvoidanceSpeed(personOptions.avoidanceSpeed);
+            person.setHealthySpeed(personOptions.healthySpeed);
+            person.setSickSpeed(personOptions.sickSpeed);
+            person.setInfectionRadius(personOptions.infectionRadius);
+            person.setAvoidanceRadius(personOptions.avoidanceRadius);
+            person.setShowAvoidanceRadius(personOptions.showAvoidanceRadius);
+            person.setShowInfectionRadius(personOptions.showInfectionRadius);
+            this.people.push(person);
         }
 
         this.people[Math.floor(random(0, this.population - 1))].infect();
+    }
+
+    refresh(personOptions: any) {
+        this.people.forEach(person => {
+            person.setRadius(personOptions.radius);
+            person.setAvoidanceSpeed(personOptions.avoidanceSpeed);
+            person.setHealthySpeed(personOptions.healthySpeed);
+            person.setSickSpeed(personOptions.sickSpeed);
+            person.setInfectionRadius(personOptions.infectionRadius);
+            person.setAvoidanceRadius(personOptions.avoidanceRadius);
+            person.setShowAvoidanceRadius(personOptions.showAvoidanceRadius);
+            person.setShowInfectionRadius(personOptions.showInfectionRadius);
+        })
     }
 
     checkColisions() {
@@ -46,9 +60,9 @@ class People {
 
         sickPeople.forEach((sickPerson: Person) => {
             healthyPeople.forEach((healthyPerson: Person) => {
-                if (sickPerson.isNear(healthyPerson)) {
+                if (sickPerson.shouldInfect(healthyPerson)) {
                     healthyPerson.infect();
-                } else {
+                } else if (healthyPerson.shouldAvoid(sickPerson)) {
                     healthyPerson.avoid(sickPerson);
                 }
             });

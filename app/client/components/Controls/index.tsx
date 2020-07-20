@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
+import { Link } from "react-router-dom"
 import classnames from "classnames";
 import {
     controls,
@@ -7,12 +8,14 @@ import {
     burgerIcon,
     burgerIconHide,
     burgerIconContainer,
-    titleContainer
+    titleContainer,
+    aboutLink
 } from "./index.scss";
 
 import CloseIcon from "../../assets/cross.svg";
 import BurgerIcon from "../../assets/burger.svg";
 import PopulationControls from "./PopulationControls";
+import PersonControls from "./PersonControls";
 
 const Controls: FunctionComponent = () => {
 
@@ -26,6 +29,7 @@ const Controls: FunctionComponent = () => {
             <p>Control the apocalypse</p>
         </div>
         <PopulationControls />
+        <PersonControls />
         <CloseIcon
             className={closeIcon}
             onClick={() => {
@@ -42,6 +46,8 @@ const Controls: FunctionComponent = () => {
                 }}
             />
         </div>
+
+        <Link to={"/about"} ><p className={aboutLink}>What is this?</p></Link>
     </div>)
 }
 

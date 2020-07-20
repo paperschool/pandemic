@@ -9,12 +9,16 @@ class Person {
     private speed: number = 5;
     private sickSpeed: number = 5;
     private healthySpeed: number = 5;
+    private avoidanceSpeed: number = 5;
 
     private position: Vector;
 
     private sick: boolean = false;
     private sicknessDelayMax: number = 1000;
     private sicknessDelay: number = 0;
+
+    private showInfectionRadius: boolean = false;
+    private showAvoidanceRadius: boolean = false;
 
     private infectionRadius: number = 10;
     private avoidanceRadius: number = 10;
@@ -47,6 +51,10 @@ class Person {
         }
     }
 
+    setAvoidanceSpeed(avoidanceSpeed: number) {
+        this.avoidanceSpeed = avoidanceSpeed;
+    }
+
     setRadius(radius: number) {
         this.radius = radius;
     }
@@ -59,11 +67,19 @@ class Person {
         this.avoidanceRadius = avoidanceRadius;
     }
 
+    setShowAvoidanceRadius(showAvoidanceRadius: boolean) {
+        this.showAvoidanceRadius = showAvoidanceRadius;
+    }
+
+    setShowInfectionRadius(showInfectionRadius: boolean) {
+        this.showInfectionRadius = showInfectionRadius;
+    }
+
     isSick() {
         return this.sick;
     }
 
-    isNear(other: Person) {
+    shouldInfect(other: Person) {
         const personDistance = this.position.distance(other.getPosition());
         const minSeparation = this.radius + other.getRadius() + this.infectionRadius;
 
@@ -75,23 +91,31 @@ class Person {
         this.sick = true;
     }
 
+    shouldAvoid(other: Person) {
+        const personDistance = this.position.distance(other.getPosition());
+        const minSeparation = this.radius + other.getRadius() + this.avoidanceRadius;
+
+        return personDistance < minSeparation;
+    }
+
+    avoid(other: Person) {
+        this.avoiding = true;
+        const avoidanceImpulse = new Vector()
+            .set(this.position)
+            .sub(other.getPosition())
+            .normalise()
+            .scale(this.avoidanceSpeed);
+
+        this.impulse(avoidanceImpulse);
+    }
+
     move() {
         this.impulse(
             new Vector(this.speed * random(-1, 1), this.speed * random(-1, 1))
         );
     }
 
-    avoid(other: Person) {
 
-        this.avoiding = true;
-
-        const personDistance = this.position.distance(other.position);
-
-        if (personDistance < this.avoidanceRadius) {
-            const avoidanceImpulse = new Vector().set(this.position).sub(other.getPosition());
-            this.impulse(avoidanceImpulse.normalise().scale(2));
-        }
-    }
 
     impulse(direction: Vector) {
         this.position.x += direction.x;
@@ -140,11 +164,18 @@ class Person {
         p5.noStroke()
         p5.circle(this.position.x, this.position.y, this.radius * 2);
 
-        if (this.sick) {
+        if (this.sick && this.showInfectionRadius) {
             p5.noFill()
-            p5.stroke(255)
+            p5.stroke(200, 100, 100)
             p5.circle(this.position.x, this.position.y, (this.radius * 2) + this.infectionRadius)
         }
+
+        if (!this.sick && this.showAvoidanceRadius) {
+            p5.noFill()
+            p5.stroke(100, 100, 200)
+            p5.circle(this.position.x, this.position.y, (this.radius * 2) + this.avoidanceRadius)
+        }
+
     }
 }
 

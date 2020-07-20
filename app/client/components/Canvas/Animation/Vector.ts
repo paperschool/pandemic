@@ -29,7 +29,7 @@ class Vector {
     }
 
     normalise() {
-        return this.scale(this.mag());
+        return this.scale(1.0 / this.mag());
     }
 
     mag() {
