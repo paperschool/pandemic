@@ -25,6 +25,7 @@ const Canvas: FunctionComponent = () => {
     useEffect(() => {
         if (animation) {
             options.population = getPopulation(state);
+            console.log("Restarting Simulation:", options)
             animation.reset(options);
         }
     }, [getPopulation(state)])
@@ -33,7 +34,7 @@ const Canvas: FunctionComponent = () => {
     useEffect(() => {
         if (animation) {
             options.person = getPerson(state);
-
+            console.log("Refreshing Simulation:", options)
             animation.refresh(options);
         }
     }, [getPerson(state)])

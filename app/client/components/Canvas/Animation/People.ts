@@ -62,7 +62,9 @@ class People {
             healthyPeople.forEach((healthyPerson: Person) => {
                 if (sickPerson.shouldInfect(healthyPerson)) {
                     healthyPerson.infect();
-                } else if (healthyPerson.shouldAvoid(sickPerson)) {
+                }
+
+                if (healthyPerson.shouldAvoid(sickPerson)) {
                     healthyPerson.avoid(sickPerson);
                 }
             });

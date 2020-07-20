@@ -23,7 +23,6 @@ class Animation {
     }
 
     reset(options: any) {
-        console.log("Restarting Simulation:", options)
         this.size = this.getCanvasSize();
         this.people = new People(options.population);
         this.people.setup(this.size, options.person);
