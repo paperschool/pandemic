@@ -1,5 +1,6 @@
 import { random } from "./Utility";
 import Person from "./Person";
+import Vector from "./Vector";
 
 class People {
 
@@ -10,9 +11,22 @@ class People {
         this.population = population;
     }
 
-    setup({ width, height }: any) {
-        for (let person = 0; person < this.population; person++) {
-            this.people.push(new Person(random(0, width), random(0, height)));
+    setup(worldSize: Vector, person: any) {
+        for (let personIndex = 0; personIndex < this.population; personIndex++) {
+            let newPerson = new Person(
+                random(0, worldSize.x),
+                random(0, worldSize.y)
+            )
+
+            newPerson.setRadius(person.radius);
+
+            newPerson.setHealthySpeed(person.healthySpeed);
+            newPerson.setSickSpeed(person.sickSpeed);
+
+            newPerson.setInfectionRadius(person.infectionRadius);
+            newPerson.setAvoidanceRadius(person.avoidanceRadius);
+
+            this.people.push(newPerson);
         }
 
         this.people[Math.floor(random(0, this.population - 1))].infect();
@@ -32,20 +46,18 @@ class People {
 
         sickPeople.forEach((sickPerson: Person) => {
             healthyPeople.forEach((healthyPerson: Person) => {
-
                 if (sickPerson.isNear(healthyPerson)) {
                     healthyPerson.infect();
                 } else {
                     healthyPerson.avoid(sickPerson);
-
                 }
             });
         });
     }
 
     update(p5: any) {
-        this.checkColisions();
         this.people.forEach(person => person.update(p5));
+        this.checkColisions();
     }
 
     draw(p5: any) {

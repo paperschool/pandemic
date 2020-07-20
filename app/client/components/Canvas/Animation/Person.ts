@@ -4,48 +4,25 @@ import { random, map } from "./Utility";
 
 class Person {
 
-    private radius: number;
+    private radius: number = 5;
 
-    private speed: number;
-    private sickSpeed: number;
-    private healthySpeed: number;
+    private speed: number = 5;
+    private sickSpeed: number = 5;
+    private healthySpeed: number = 5;
 
     private position: Vector;
 
-    private sick: boolean;
-    private sicknessDelayMax: number;
-    private sicknessDelay: number;
+    private sick: boolean = false;
+    private sicknessDelayMax: number = 1000;
+    private sicknessDelay: number = 0;
 
-    private infectionRadius: number;
-    private avoidanceRadius: number;
+    private infectionRadius: number = 10;
+    private avoidanceRadius: number = 10;
+
+    private avoiding: boolean;
 
     constructor(x: number, y: number) {
-        this.radius = 5;
-
-        this.sickSpeed = 5;
-        this.healthySpeed = 2;
-        this.speed = this.healthySpeed;
-
         this.position = new Vector(x, y);
-
-        this.sick = false;
-        this.sicknessDelayMax = 1000;
-        this.sicknessDelay = 0;
-
-        this.infectionRadius = 10;
-        this.avoidanceRadius = 10;
-    }
-
-    isSick() {
-        return this.sick;
-    }
-
-    isNear(other: Person) {
-        const personDistance = this.position.distance(other.getPosition());
-
-        const minSeparation = this.radius + other.getRadius() + this.infectionRadius;
-
-        return personDistance < minSeparation;
     }
 
     getPosition() {
@@ -56,19 +33,58 @@ class Person {
         return this.radius;
     }
 
+    setHealthySpeed(healthySpeed: number) {
+        this.healthySpeed = healthySpeed;
+        if (!this.sick) {
+            this.speed = this.healthySpeed;
+        }
+    }
+
+    setSickSpeed(sickSpeed: number) {
+        this.sickSpeed = sickSpeed;
+        if (this.sick) {
+            this.speed = this.sickSpeed;
+        }
+    }
+
+    setRadius(radius: number) {
+        this.radius = radius;
+    }
+
+    setInfectionRadius(infectionRadius: number) {
+        this.infectionRadius = infectionRadius;
+    }
+
+    setAvoidanceRadius(avoidanceRadius: number) {
+        this.avoidanceRadius = avoidanceRadius;
+    }
+
+    isSick() {
+        return this.sick;
+    }
+
+    isNear(other: Person) {
+        const personDistance = this.position.distance(other.getPosition());
+        const minSeparation = this.radius + other.getRadius() + this.infectionRadius;
+
+        return personDistance < minSeparation;
+    }
+
     infect() {
         this.speed = this.sickSpeed;
         this.sick = true;
     }
 
     move() {
-
         this.impulse(
             new Vector(this.speed * random(-1, 1), this.speed * random(-1, 1))
         );
     }
 
     avoid(other: Person) {
+
+        this.avoiding = true;
+
         const personDistance = this.position.distance(other.position);
 
         if (personDistance < this.avoidanceRadius) {
@@ -99,23 +115,36 @@ class Person {
     }
 
     update(p5: any) {
+        this.avoiding = false;
+
         this.sickness();
         this.move();
         this.resolveBounds(p5.width, p5.height);
     }
 
     draw(p5: any) {
+        p5.fill(100, 200, 100);
+
         if (this.sick) {
             p5.fill(
                 map(this.sicknessDelay, 0, this.sicknessDelayMax, 100, 255),
                 100,
                 100
             );
-        } else {
-            p5.fill(100, 200, 100);
         }
 
+        if (this.avoiding) {
+            p5.fill(100, 100, 200);
+        }
+
+        p5.noStroke()
         p5.circle(this.position.x, this.position.y, this.radius * 2);
+
+        if (this.sick) {
+            p5.noFill()
+            p5.stroke(255)
+            p5.circle(this.position.x, this.position.y, (this.radius * 2) + this.infectionRadius)
+        }
     }
 }
 
