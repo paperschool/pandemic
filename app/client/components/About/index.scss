@@ -7,22 +7,22 @@
     padding: 10px;
     background-color: $gravel;
     overflow: hidden;
-
-    
 }
 
 .aboutText {
     max-width: 320px;
+    margin-top: 20px;
     padding-right: 10px;
-    height: 100%;
+    height: calc(100% - 40px);
     overflow: auto;
+    color: white;
 
-    & > p {
-        margin-bottom: 30px;
+    & > * {
+        margin-bottom: 10px;
         text-align: justify;
-    }
+    } 
 
-    li {
+    & li {
         color: white;
         font-size: 14px;
     }
