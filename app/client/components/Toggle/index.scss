@@ -8,7 +8,6 @@
 .toggleSwitch {
     transition: opacity .2s;
 
-    position: absolute;
     width: 50px;
     height: 25px;
     margin-top:5px;
@@ -23,20 +22,15 @@
 }
 
 .toggle {
-    position: absolute;
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background-color: $green;
+    background-color: $gravel;
     border: 2px white solid;
-    transition: 0.2s left linear;
-    transition: 0.2s right linear;
-}
-
-.off {
-    left:0;
+    transition: 0.2s margin-left ease-in-out;
 }
 
 .on {
-    right:0;
+    margin-left: 25px;
+    background-color: $green;
 }

@@ -1,7 +1,7 @@
 @import "../../styles/colours.scss";
 @import "../../styles/dimensions.scss";
 
-.controls {
+.controlsContainer {
     transition: 0.5s cubic-bezier(0.45, 0.05, 0.54, 0.96) left;
     position: absolute;
     left: 0;
@@ -10,6 +10,12 @@
     background-color: $gravel;
     padding: 10px;
     opacity: 0.9;
+}
+
+.controls {
+    height: calc(100% - 50px);
+    overflow-y: scroll;
+    padding: 5px 10px 5px 5px;
 }
 
 .hidden {
@@ -68,7 +74,6 @@
 
 .aboutLink {
     color: $green;
-    position: absolute;
-    bottom: 0;
+    margin-top: 40px;
     margin-bottom: 10px;
 }

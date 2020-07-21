@@ -38,10 +38,10 @@ export const setAvoidanceRadius = (dispatch: any, radius: number) => {
     dispatch({ type: SET_AVOIDANCE_RADIUS, payload: radius });
 }
 
-export const toggleInfectionRadius = (dispatch: any) => {
-    dispatch({ type: TOGGLE_INFECTION_RADIUS });
+export const toggleInfectionRadius = (dispatch: any, status: boolean) => {
+    dispatch({ type: TOGGLE_INFECTION_RADIUS, payload: status });
 }
 
-export const toggleAvoidanceRadius = (dispatch: any) => {
-    dispatch({ type: TOGGLE_AVOIDANCE_RADIUS });
+export const toggleAvoidanceRadius = (dispatch: any, status: boolean) => {
+    dispatch({ type: TOGGLE_AVOIDANCE_RADIUS, payload: status });
 }

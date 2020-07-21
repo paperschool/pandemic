@@ -30,7 +30,6 @@ const Toggle: FunctionComponent<ToggleProps> = ({
                     setToggleState(!toggleState);
                 }}>
                 <div className={classnames(toggle, {
-                    [off]: !toggleState,
                     [on]: toggleState
                 })}></div>
             </div >

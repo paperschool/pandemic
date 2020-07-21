@@ -2,22 +2,14 @@ import React, { FunctionComponent, useState, useContext } from "react";
 import Slider from "../../Slider";
 
 import pandemicStore from "../../../state/PandemicState/store";
-import { setPopulation, setPersonRadius, setInfectionRadius, setAvoidanceRadius, setSickSpeed, setAvoidanceSpeed, setHealthySpeed } from "../../../state/PandemicState/actions";
+import { setPopulation } from "../../../state/PandemicState/actions";
 import {
     getPopulation,
-    getPersonRadius,
-    getPersonInfectionRadius,
-    getPersonAvoidanceRadius,
-    getPersonSickSpeed,
-    getPersonHealthySpeed,
-    getPersonAvoidanceSpeed
 } from "../../../state/PandemicState/selectors";
 
 import {
     populationControls
 } from "./index.scss";
-import Toggle from "../../Toggle";
-
 
 const PopulationControls: FunctionComponent = () => {
 

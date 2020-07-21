@@ -4,9 +4,9 @@ export default async (): Promise<any> => {
         person: {
             radius: 10,
             avoidanceRadius: 10,
-            showAvoidanceRadius: true,
+            showAvoidanceRadius: false,
             infectionRadius: 10,
-            showInfectionRadius: true,
+            showInfectionRadius: false,
             healthySpeed: 1,
             sickSpeed: 1,
             avoidanceSpeed: 4

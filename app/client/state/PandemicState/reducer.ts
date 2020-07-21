@@ -64,7 +64,7 @@ const PandemicStoreReducer: Reducer<any, any> = (state: any, { type, payload }: 
                 ...state,
                 person: {
                     ...state.person,
-                    showInfectionRadius: !state.person.showInfectionRadius
+                    showInfectionRadius: payload
                 }
             }
         case TOGGLE_AVOIDANCE_RADIUS:
@@ -72,7 +72,7 @@ const PandemicStoreReducer: Reducer<any, any> = (state: any, { type, payload }: 
                 ...state,
                 person: {
                     ...state.person,
-                    showAvoidanceRadius: !state.person.showAvoidanceRadius
+                    showAvoidanceRadius: payload
                 }
             }
         default: return state;

@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from "react";
 import { Link } from "react-router-dom"
 import classnames from "classnames";
 import {
+    controlsContainer,
     controls,
     hidden,
     closeIcon,
@@ -21,15 +22,10 @@ const Controls: FunctionComponent = () => {
 
     const [hideControls, setHideControls] = useState(false);
 
-    return (<div className={classnames(controls, {
+    return (<div className={classnames(controlsContainer, {
         [hidden]: hideControls
     })}>
-        <div className={titleContainer}>
-            <h3>Pandemic</h3>
-            <p>Control the apocalypse</p>
-        </div>
-        <PopulationControls />
-        <PersonControls />
+
         <CloseIcon
             className={closeIcon}
             onClick={() => {
@@ -46,8 +42,20 @@ const Controls: FunctionComponent = () => {
                 }}
             />
         </div>
+        <div className={titleContainer}>
+            <h3>Pandemic</h3>
+            <p>Control the apocalypse</p>
+        </div>
 
-        <Link to={"/about"} ><p className={aboutLink}>What is this?</p></Link>
+        <div className={controls}>
+            <PopulationControls />
+            <PersonControls />
+            <Link to={"/about"} ><p className={aboutLink}>What is this?</p></Link>
+        </div>
+
+
+
+
     </div>)
 }
 

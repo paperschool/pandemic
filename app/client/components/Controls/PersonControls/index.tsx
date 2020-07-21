@@ -61,8 +61,8 @@ const PersonControls: FunctionComponent = () => {
         />
         <Toggle
             title={"Show Infection Radius"}
-            onChange={enabled => {
-                toggleInfectionRadius(dispatch)
+            onChange={status => {
+                toggleInfectionRadius(dispatch, status)
             }}
             enabled={getShowInfectionRadius(state)}
         />
@@ -84,8 +84,8 @@ const PersonControls: FunctionComponent = () => {
         />
         <Toggle
             title={"Show Avoidance Radius"}
-            onChange={enabled => {
-                toggleAvoidanceRadius(dispatch)
+            onChange={status => {
+                toggleAvoidanceRadius(dispatch, status)
             }}
             enabled={getShowAvoidanceRadius(state)}
         />
