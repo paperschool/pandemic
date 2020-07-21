@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useContext } from "react";
 import Slider from "../../Slider";
-
+import Acordian from "../../Acordian";
 import pandemicStore from "../../../state/PandemicState/store";
 import { setPopulation } from "../../../state/PandemicState/actions";
 import {
@@ -11,21 +11,27 @@ import {
     populationControls
 } from "./index.scss";
 
+
 const PopulationControls: FunctionComponent = () => {
 
     const { state, dispatch } = useContext(pandemicStore);
 
     return (<div className={populationControls}>
-        <h6>Population Controls</h6>
-        <p>Control details about the current population</p>
-        <Slider
-            title={"Population Size"}
-            min={2}
-            max={1000}
-            step={1}
-            value={getPopulation(state)}
-            onChange={value => setPopulation(dispatch, value)}
-        />
+        <Acordian
+            title={"Population Controls"}
+            openInitially={true}
+        >
+            <p>Control details about the current population</p>
+            <Slider
+                title={"Population Size"}
+                min={2}
+                max={1000}
+                step={1}
+                value={getPopulation(state)}
+                onChange={value => setPopulation(dispatch, value)}
+            />
+        </Acordian>
+
     </div>)
 }
 
