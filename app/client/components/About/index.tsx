@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from "react";
+import { Link } from "react-router-dom"
 import {
     about,
-    aboutText
+    aboutText,
+    homeLink
 } from "./index.scss";
 
 const About: FunctionComponent = () => {
@@ -25,7 +27,8 @@ const About: FunctionComponent = () => {
             </ul>
             <p>This application was written and designed by me - Dominic Jomaa. Feel free to
             contact me on my <a href={"https://www.linkedin.com/in/dominicjomaa/"}>Linkedin</a> or
-            <a href={"https://github.com/paperschool"}>Github</a>.</p>
+             <a href={"https://github.com/paperschool"}> Github</a>.</p>
+            <Link to={"/"}><p className={homeLink}>Home</p></Link>
         </div>
     </div>)
 }
