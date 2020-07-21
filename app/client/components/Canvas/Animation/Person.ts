@@ -167,13 +167,13 @@ class Person {
         if (this.sick && this.showInfectionRadius) {
             p5.noFill()
             p5.stroke(200, 100, 100)
-            p5.circle(this.position.x, this.position.y, (this.radius * 2) + this.infectionRadius)
+            p5.circle(this.position.x, this.position.y, (this.radius + this.infectionRadius) * 2);
         }
 
         if (!this.sick && this.showAvoidanceRadius) {
             p5.noFill()
             p5.stroke(100, 100, 200)
-            p5.circle(this.position.x, this.position.y, (this.radius * 2) + this.avoidanceRadius)
+            p5.circle(this.position.x, this.position.y, (this.radius + this.avoidanceRadius) * 2);
         }
 
     }

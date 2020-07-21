@@ -20,7 +20,7 @@ const PopulationControls: FunctionComponent = () => {
         <p>Control details about the current population</p>
         <Slider
             title={"Population Size"}
-            min={10}
+            min={2}
             max={1000}
             step={1}
             value={getPopulation(state)}
