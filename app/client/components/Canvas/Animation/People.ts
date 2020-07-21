@@ -21,7 +21,9 @@ class People {
             this.people = [];
         }
 
-        for (let personIndex = 0; personIndex < this.population; personIndex++) {
+        const peopleMax = reconstructPopulation ? this.population : this.people.length;
+
+        for (let personIndex = 0; personIndex < peopleMax; personIndex++) {
 
             let person;
 
@@ -35,18 +37,20 @@ class People {
                 person = this.people[personIndex];
             }
 
-            person.setRadius(options.person.radius);
-            person.setAvoidanceSpeed(options.person.avoidanceSpeed);
-            person.setHealthySpeed(options.person.healthySpeed);
-            person.setSickSpeed(options.person.sickSpeed);
-            person.setInfectionRadius(options.person.infectionRadius);
-            person.setAvoidanceRadius(options.person.avoidanceRadius);
-            person.setShowAvoidanceRadius(options.person.showAvoidanceRadius);
-            person.setShowInfectionRadius(options.person.showInfectionRadius);
-            person.setSicknessMortality(options.sickness.mortalityRate);
-            person.setSicknessTotalDuration(options.sickness.totalDuration);
-            person.setSicknessIncubation(options.sickness.incubation);
-            person.setSicknessContagious(options.sickness.contagious);
+            if (person) {
+                person.setRadius(options.person.radius);
+                person.setAvoidanceSpeed(options.person.avoidanceSpeed);
+                person.setHealthySpeed(options.person.healthySpeed);
+                person.setSickSpeed(options.person.sickSpeed);
+                person.setInfectionRadius(options.person.infectionRadius);
+                person.setAvoidanceRadius(options.person.avoidanceRadius);
+                person.setShowAvoidanceRadius(options.person.showAvoidanceRadius);
+                person.setShowInfectionRadius(options.person.showInfectionRadius);
+                person.setSicknessMortality(options.sickness.mortalityRate);
+                person.setSicknessTotalDuration(options.sickness.totalDuration);
+                person.setSicknessIncubation(options.sickness.incubation);
+                person.setSicknessContagious(options.sickness.contagious);
+            }
         }
     }
 
@@ -55,7 +59,7 @@ class People {
     }
 
     infectPerson() {
-        this.people[Math.floor(random(0, this.population - 1))].infect();
+        this.people[Math.floor(random(0, this.people.length - 1))].infect();
     }
 
     checkColisions() {
