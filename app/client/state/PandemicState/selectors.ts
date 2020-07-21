@@ -12,3 +12,10 @@ export const getPersonAvoidanceRadius = (state: any) => getPerson(state).avoidan
 
 export const getShowInfectionRadius = (state: any) => getPerson(state).showInfectionRadius;
 export const getShowAvoidanceRadius = (state: any) => getPerson(state).showAvoidanceRadius;
+
+export const getSickness = (state: any) => state.sickness;
+
+export const getSicknessMortalityRate = (state: any) => getSickness(state).mortalityRate;
+export const getSicknessTotalDuration = (state: any) => getSickness(state).totalDuration;
+export const getSicknessIncubation = (state: any) => getSickness(state).incubation;
+export const getSicknessContagious = (state: any) => getSickness(state).contagious;

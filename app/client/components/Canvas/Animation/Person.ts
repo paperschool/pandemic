@@ -14,8 +14,15 @@ class Person {
     private position: Vector;
 
     private sick: boolean = false;
-    private sicknessDelayMax: number = 1000;
-    private sicknessDelay: number = 0;
+
+    private sicknessMortality: number = 0.01;
+
+    private sicknessTotalDuration: number = 10000;
+
+    private sicknessIncubation: number = 1000;
+    private sicknessContagious: number = 9000;
+
+    private sicknessProgress: number = 0;
 
     private showInfectionRadius: boolean = false;
     private showAvoidanceRadius: boolean = false;
@@ -24,6 +31,8 @@ class Person {
     private avoidanceRadius: number = 10;
 
     private avoiding: boolean;
+
+    private dead: boolean = false;
 
     constructor(x: number, y: number) {
         this.position = new Vector(x, y);
@@ -75,27 +84,61 @@ class Person {
         this.showInfectionRadius = showInfectionRadius;
     }
 
+    setSicknessMortality(sicknessMortality: number) {
+        this.sicknessMortality = sicknessMortality;
+    }
+
+    setSicknessTotalDuration(sicknessTotalDuration: number) {
+        this.sicknessTotalDuration = sicknessTotalDuration;
+    }
+
+    setSicknessIncubation(sicknessIncubation: number) {
+        this.sicknessIncubation = sicknessIncubation;
+    }
+
+    setSicknessContagious(sicknessContagious: number) {
+        this.sicknessContagious = sicknessContagious;
+    }
+
+    isDead() {
+        return this.dead;
+    }
+
     isSick() {
         return this.sick;
+    }
+
+    isContagious() {
+        return this.isSick() && this.sicknessProgress > this.sicknessIncubation;
+    }
+
+    shouldDie() {
+        return random() < this.sicknessMortality;
     }
 
     shouldInfect(other: Person) {
         const personDistance = this.position.distance(other.getPosition());
         const minSeparation = this.radius + other.getRadius() + this.infectionRadius;
 
-        return personDistance < minSeparation;
+        return personDistance < minSeparation && this.isContagious();
     }
 
     infect() {
-        this.speed = this.sickSpeed;
         this.sick = true;
+        this.sicknessProgress = 0;
+        this.speed = this.sickSpeed;
+    }
+
+    heal() {
+        this.sick = false;
+        this.speed = this.healthySpeed;
     }
 
     shouldAvoid(other: Person) {
         const personDistance = this.position.distance(other.getPosition());
         const minSeparation = this.radius + other.getRadius() + this.avoidanceRadius;
 
-        return personDistance < minSeparation;
+        return personDistance < minSeparation && other.isContagious();
     }
 
     avoid(other: Person) {
@@ -115,8 +158,6 @@ class Person {
         );
     }
 
-
-
     impulse(direction: Vector) {
         this.position.x += direction.x;
         this.position.y += direction.y;
@@ -132,8 +173,15 @@ class Person {
 
     sickness() {
         if (this.sick) {
-            if (this.sicknessDelay < this.sicknessDelayMax) {
-                this.sicknessDelay++;
+
+            this.sicknessProgress++;
+
+            if (this.sicknessProgress >= this.sicknessTotalDuration) {
+                if (this.shouldDie()) {
+                    this.dead = true;
+                } else {
+                    this.heal();
+                }
             }
         }
     }
@@ -150,11 +198,11 @@ class Person {
         p5.fill(100, 200, 100);
 
         if (this.sick) {
-            p5.fill(
-                map(this.sicknessDelay, 0, this.sicknessDelayMax, 100, 255),
-                100,
-                100
-            );
+            if (this.isContagious()) {
+                p5.fill(200, 100, 100);
+            } else {
+                p5.fill(200, 200, 100);
+            }
         }
 
         if (this.avoiding) {
@@ -166,7 +214,13 @@ class Person {
 
         if (this.sick && this.showInfectionRadius) {
             p5.noFill()
-            p5.stroke(200, 100, 100)
+
+            if (this.isContagious()) {
+                p5.stroke(200, 100, 100)
+            } else {
+                p5.stroke(200, 200, 100)
+            }
+
             p5.circle(this.position.x, this.position.y, (this.radius + this.infectionRadius) * 2);
         }
 

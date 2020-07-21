@@ -17,6 +17,7 @@ import CloseIcon from "../../assets/cross.svg";
 import BurgerIcon from "../../assets/burger.svg";
 import PopulationControls from "./PopulationControls";
 import PersonControls from "./PersonControls";
+import SicknessControls from "./SicknessControls";
 
 const Controls: FunctionComponent = () => {
 
@@ -50,6 +51,7 @@ const Controls: FunctionComponent = () => {
         <div className={controls}>
             <PopulationControls />
             <PersonControls />
+            <SicknessControls />
             <Link to={"/about"} ><p className={aboutLink}>What is this?</p></Link>
         </div>
 

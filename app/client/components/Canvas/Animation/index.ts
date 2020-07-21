@@ -7,6 +7,7 @@ class Animation {
     private people: People;
 
     constructor(options: any) {
+        this.people = new People();
         this.reset(options)
     }
 
@@ -24,12 +25,12 @@ class Animation {
 
     reset(options: any) {
         this.size = this.getCanvasSize();
-        this.people = new People(options.population);
-        this.people.setup(this.size, options.person);
+        this.people.setup(this.size, options, true);
     }
 
     refresh(options: any) {
-        this.people.refresh(options.person);
+        this.size = this.getCanvasSize();
+        this.people.setup(this.size, options, false);
     }
 
     setup(p5: any, canvasParentRef: any) {

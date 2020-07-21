@@ -4,46 +4,58 @@ import Vector from "./Vector";
 
 class People {
 
-    private population: number;
+    private population: number = 0;
     private people: Person[] = [];
 
-    constructor(population: number) {
+    constructor(population?: number) {
         this.population = population;
     }
 
-    setup(worldSize: Vector, personOptions: any) {
-        for (let personIndex = 0; personIndex < this.population; personIndex++) {
-
-            let person = new Person(
-                random(0, worldSize.x),
-                random(0, worldSize.y)
-            )
-
-            person.setRadius(personOptions.radius);
-            person.setAvoidanceSpeed(personOptions.avoidanceSpeed);
-            person.setHealthySpeed(personOptions.healthySpeed);
-            person.setSickSpeed(personOptions.sickSpeed);
-            person.setInfectionRadius(personOptions.infectionRadius);
-            person.setAvoidanceRadius(personOptions.avoidanceRadius);
-            person.setShowAvoidanceRadius(personOptions.showAvoidanceRadius);
-            person.setShowInfectionRadius(personOptions.showInfectionRadius);
-            this.people.push(person);
-        }
-
-        this.people[Math.floor(random(0, this.population - 1))].infect();
+    setPopulation(population: number) {
+        this.population = population;
     }
 
-    refresh(personOptions: any) {
-        this.people.forEach(person => {
-            person.setRadius(personOptions.radius);
-            person.setAvoidanceSpeed(personOptions.avoidanceSpeed);
-            person.setHealthySpeed(personOptions.healthySpeed);
-            person.setSickSpeed(personOptions.sickSpeed);
-            person.setInfectionRadius(personOptions.infectionRadius);
-            person.setAvoidanceRadius(personOptions.avoidanceRadius);
-            person.setShowAvoidanceRadius(personOptions.showAvoidanceRadius);
-            person.setShowInfectionRadius(personOptions.showInfectionRadius);
-        })
+    setup(worldSize: Vector, options: any, reconstructPopulation: boolean) {
+        if (reconstructPopulation) {
+            this.setPopulation(options.population);
+            this.people = [];
+        }
+
+        for (let personIndex = 0; personIndex < this.population; personIndex++) {
+
+            let person;
+
+            if (reconstructPopulation) {
+                person = new Person(
+                    random(0, worldSize.x),
+                    random(0, worldSize.y)
+                );
+                this.people.push(person);
+            } else {
+                person = this.people[personIndex];
+            }
+
+            person.setRadius(options.person.radius);
+            person.setAvoidanceSpeed(options.person.avoidanceSpeed);
+            person.setHealthySpeed(options.person.healthySpeed);
+            person.setSickSpeed(options.person.sickSpeed);
+            person.setInfectionRadius(options.person.infectionRadius);
+            person.setAvoidanceRadius(options.person.avoidanceRadius);
+            person.setShowAvoidanceRadius(options.person.showAvoidanceRadius);
+            person.setShowInfectionRadius(options.person.showInfectionRadius);
+            person.setSicknessMortality(options.sickness.mortalityRate);
+            person.setSicknessTotalDuration(options.sickness.totalDuration);
+            person.setSicknessIncubation(options.sickness.incubation);
+            person.setSicknessContagious(options.sickness.contagious);
+        }
+
+        if (reconstructPopulation) {
+            this.people[Math.floor(random(0, this.population - 1))].infect();
+        }
+    }
+
+    clearDead() {
+        this.people = this.people.filter(people => !people.isDead());
     }
 
     checkColisions() {
@@ -74,6 +86,7 @@ class People {
     update(p5: any) {
         this.people.forEach(person => person.update(p5));
         this.checkColisions();
+        this.clearDead();
     }
 
     draw(p5: any) {

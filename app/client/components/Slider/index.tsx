@@ -13,7 +13,8 @@ type SliderProps = {
     min: number;
     max: number;
     step: number;
-    value?: number;
+    value: number;
+    debounce?: number;
 }
 
 const Slider: FunctionComponent<SliderProps> = ({
@@ -22,12 +23,13 @@ const Slider: FunctionComponent<SliderProps> = ({
     min,
     max,
     step,
-    value
+    value,
+    debounce = 100
 }) => {
 
     const [sliderValue, setSliderValue] = useState(value);
 
-    const debouncedVolumeValue = useDebouncedValue(sliderValue, 100)
+    const debouncedVolumeValue = useDebouncedValue(sliderValue, debounce)
 
     useEffect(() => {
         onChange(debouncedVolumeValue);
