@@ -10,7 +10,7 @@ import {
 
 type AcordianProps = {
     title: string;
-    openInitially?: false;
+    openInitially?: boolean;
 }
 
 const Acordian: FunctionComponent<AcordianProps> = ({
