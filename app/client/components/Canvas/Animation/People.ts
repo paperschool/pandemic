@@ -48,14 +48,14 @@ class People {
             person.setSicknessIncubation(options.sickness.incubation);
             person.setSicknessContagious(options.sickness.contagious);
         }
-
-        if (reconstructPopulation) {
-            this.people[Math.floor(random(0, this.population - 1))].infect();
-        }
     }
 
     clearDead() {
         this.people = this.people.filter(people => !people.isDead());
+    }
+
+    infectPerson() {
+        this.people[Math.floor(random(0, this.population - 1))].infect();
     }
 
     checkColisions() {
@@ -70,17 +70,21 @@ class People {
             }
         });
 
-        sickPeople.forEach((sickPerson: Person) => {
-            healthyPeople.forEach((healthyPerson: Person) => {
-                if (sickPerson.shouldInfect(healthyPerson)) {
-                    healthyPerson.infect();
-                }
+        if (sickPeople.length === 0) {
+            this.infectPerson();
+        } else {
+            sickPeople.forEach((sickPerson: Person) => {
+                healthyPeople.forEach((healthyPerson: Person) => {
+                    if (sickPerson.shouldInfect(healthyPerson)) {
+                        healthyPerson.infect();
+                    }
 
-                if (healthyPerson.shouldAvoid(sickPerson)) {
-                    healthyPerson.avoid(sickPerson);
-                }
+                    if (healthyPerson.shouldAvoid(sickPerson)) {
+                        healthyPerson.avoid(sickPerson);
+                    }
+                });
             });
-        });
+        }
     }
 
     update(p5: any) {
