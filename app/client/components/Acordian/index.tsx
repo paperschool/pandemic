@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import classnames from "classnames";
-import ArrowIcon from "../../assets/Arrow.svg";
+import ArrowIcon from "../../assets/arrow.svg";
 import {
     acordianClosed,
     foldControls,
